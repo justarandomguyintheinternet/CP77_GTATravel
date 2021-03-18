@@ -5,8 +5,7 @@ A CP2077 Mod that replaces the defaul fast travel loading screens with realtime 
 ## What it does:
 - This CET mod replaces the default loading screens that appear when using a fast travel point with a dynamic camera transition consisting of an Up, Sideways and Down movement
 - It also includes options to work from anywhere to anywhere, anywhere to fast travel points and fast travel points to fast travel points
-
-	[<img src="https://media.giphy.com/media/UDz4dy6z1hxLbidWBZ/giphy.gif">](https://media.giphy.com/)
+- [GIF Showcase](https://media.giphy.com/media/UDz4dy6z1hxLbidWBZ/giphy.gif)
  
 ## How to install / use:
 - Download the mod from its [Nexus Page](https://www.nexusmods.com/cyberpunk2077/mods/2006?tab=description) or here

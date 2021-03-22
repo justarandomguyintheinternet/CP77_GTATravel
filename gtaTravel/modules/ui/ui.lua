@@ -1,13 +1,14 @@
 ui = {
 	speedUI = require("modules/ui/speedUI"),
     fileUI = require("modules/ui/fileUI"),
-    miscUI = require("modules/ui/miscUI")
+    miscUI = require("modules/ui/miscUI"),
+    helpUI = require("modules/ui/helpUI")
 }
 
 function ui.draw(gtaTravel)
     gtaTravel.CPS.setThemeBegin()
 
-	if ImGui.Begin("GTA Travel 1.1", ImGuiWindowFlags.AlwaysAutoResize) then
+	if ImGui.Begin("GTA Travel 1.2", ImGuiWindowFlags.AlwaysAutoResize) then
     	ImGui.SetWindowSize(500, 550)
         
 		if ImGui.BeginTabBar("Tabbar", ImGuiTabBarFlags.NoTooltip) then
@@ -25,6 +26,11 @@ function ui.draw(gtaTravel)
 
             if ImGui.BeginTabItem("File & Config") then
                 ui.fileUI.draw(gtaTravel)
+                ImGui.EndTabItem()
+            end
+
+            if ImGui.BeginTabItem("Help") then
+                ui.helpUI.draw(gtaTravel)
                 ImGui.EndTabItem()
             end
 

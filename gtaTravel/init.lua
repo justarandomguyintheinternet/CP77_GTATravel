@@ -29,7 +29,7 @@ function gtaTravel:new()
         
         gtaTravel.settings = {}
         gtaTravel.defaultSettings = {
-            upwardPath = {topSpeed = 4, speedIncrement = 0.025, camHeight = 700, playerTpDistance = 85},
+            upwardPath = {topSpeed = 4, speedIncrement = 0.025, camHeight = 700, playerTpDistance = 50},
             sidePath = {topSpeed = 10, speedIncrement = 0.05},
             downPath = {topSpeed = 4, speedIncrement = 0.025, playerTpDistance = 50},
             miscSettings = {anywhere2anywhere = false, anywhere2ftp = false, ftp2ftp = true, toggleHead = true},
@@ -89,6 +89,7 @@ function gtaTravel:new()
                     gtaTravel.readyForGeneratePath = true
                     Game.ModStatPlayer("Health", 9999999)
                 else
+                    Game.GetTeleportationFacility():Teleport(player, gtaTravel.pathing.gtaTravelDestination , EulerAngles.new(0, 0, player:GetWorldYaw()))
                     gtaTravel.api.done = true
                 end
             end

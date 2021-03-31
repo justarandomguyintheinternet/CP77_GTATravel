@@ -17,7 +17,7 @@
 gtaTravel = {
     isUIVisible = false,
     pathing = require("modules/pathing"),
-    CPS = require("CPStyling"),
+    CPS = GetMod("CPStyling"):New(),
 	ui = require("modules/ui/ui"),
 	config = require("modules/config"),
     api = require("modules/api"),

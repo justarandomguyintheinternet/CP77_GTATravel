@@ -6,7 +6,7 @@ ui = {
 }
 
 function ui.draw(gtaTravel)
-    gtaTravel.CPS.setThemeBegin()
+    gtaTravel.CPS:setThemeBegin()
 
 	if ImGui.Begin("GTA Travel 1.3", ImGuiWindowFlags.AlwaysAutoResize) then
     	ImGui.SetWindowSize(500, 550)
@@ -34,11 +34,14 @@ function ui.draw(gtaTravel)
                 ImGui.EndTabItem()
             end
 
+            gtaTravel.CPS.styleEnd(1)
+            ImGui.EndTabBar()
         end
 		
 	end
+    ImGui.End()
 
-	gtaTravel.CPS.setThemeEnd()
+	gtaTravel.CPS:setThemeEnd()
 end
 
 return ui

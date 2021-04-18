@@ -41,10 +41,6 @@ function config.startup(gtaTravel)
     else
         gtaTravel.settings = config.deepcopy(gtaTravel.defaultSettings)
     end
-
-    Game.GetPlayer().anywhere2anywhere  = gtaTravel.settings.miscSettings.anywhere2anywhere
-    Game.GetPlayer().anywhere2ftp = gtaTravel.settings.miscSettings.anywhere2ftp
-    Game.GetPlayer().ftp2ftp = gtaTravel.settings.miscSettings.ftp2ftp
 end
 
 function config.fileExists(filename)
@@ -61,11 +57,17 @@ function config.tryCreateFile(path, data)
     end
 end
 
-function config.loadFile(path)    
+function config.loadFile(path) 
     local file = io.open(path, "r")
-    local config = json.decode(file:read("*a"))
+    local cf = json.decode(file:read("*a"))
     file:close()
-    return config
+
+    if cf.visualSettings == nil then
+        cf.visualSettings = {noHud = true, blur = true}
+    end
+    config.saveFile(path, cf)
+
+    return cf
 end
 
 function config.saveFile(path, data)

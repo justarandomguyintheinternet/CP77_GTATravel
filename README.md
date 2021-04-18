@@ -15,5 +15,4 @@ A CP2077 Mod that replaces the defaul fast travel loading screens with realtime 
 - More information on what each option does and how to use it can be found on the mods [Nexus Page](https://www.nexusmods.com/cyberpunk2077/mods/2006?tab=description) aswell
 
 This mod uses [CPStyling.lua](https://github.com/Nats-ji/CPStyling.lua) by Nats-ji
-
 Also uses [GameSettings.lua](https://github.com/psiberx/cp2077-cet-kit/blob/main/GameSettings.lua), made by psiberx 

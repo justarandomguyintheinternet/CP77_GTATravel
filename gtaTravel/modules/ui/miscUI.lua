@@ -19,21 +19,18 @@ function miscUI.draw(gtaTravel)
     if changed and state then
         miscUI.resetSettings(gtaTravel)
         gtaTravel.settings.miscSettings.ftp2ftp = state
-        Game.GetPlayer().ftp2ftp = state
     end
     ImGui.Separator()
     state, changed = ImGui.Checkbox("Anywhere to Fast Travel Points", gtaTravel.settings.miscSettings.anywhere2ftp)
     if changed and state then
         miscUI.resetSettings(gtaTravel)
         gtaTravel.settings.miscSettings.anywhere2ftp = state
-        Game.GetPlayer().anywhere2ftp = state
     end
     ImGui.Separator()
     state, changed = ImGui.Checkbox("Anywhere to Anywhere", gtaTravel.settings.miscSettings.anywhere2anywhere)
     if changed and state then
         miscUI.resetSettings(gtaTravel)
         gtaTravel.settings.miscSettings.anywhere2anywhere = state
-        Game.GetPlayer().anywhere2anywhere = state
     end
 
     ImGui.PopItemWidth()
@@ -50,6 +47,24 @@ function miscUI.draw(gtaTravel)
     ImGui.SameLine()
     head = gtaTravel.CPS:CPButton("Toggle Head", 90, 30)
     if head then gtaTravel.pathing.toggleHead() end
+    ImGui.SameLine()
+    settings = gtaTravel.CPS:CPButton("Restore Visual Settings", 175, 30)
+    if settings then 
+        gtaTravel.GameSettings.ImportFrom("config/visual/lastSettings.lua")
+        gtaTravel.GameSettings.Save()
+    end
+    ImGui.EndChild()
+
+    ImGui.BeginChild("visuals", miscUI.boxSize.x, 80, true)
+    gtaTravel.CPS.colorBegin("Text", miscUI.colors.frame)
+    ImGui.Text("Visual Settings")
+    gtaTravel.CPS.colorEnd(1)
+    ImGui.Separator()
+    gtaTravel.settings.visualSettings.noHud = ImGui.Checkbox("Disable HUD", gtaTravel.settings.visualSettings.noHud)
+    miscUI.tooltips.drawBtn(gtaTravel, "?", "noHud")
+    gtaTravel.settings.visualSettings.blur = ImGui.Checkbox("Enable Motion Blur", gtaTravel.settings.visualSettings.blur)
+    miscUI.tooltips.drawBtn(gtaTravel, "?", "blur")
+
     ImGui.EndChild()
 
     ImGui.BeginChild("experimental", miscUI.boxSize.x, 62, true)

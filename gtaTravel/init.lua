@@ -21,18 +21,20 @@ gtaTravel = {
 	ui = require("modules/ui/ui"),
 	config = require("modules/config"),
     api = require("modules/api"),
-    mapObserver = require("modules/mapObserver")
+    mapObserver = require("modules/mapObserver"),
+    GameSettings = require("modules/GameSettings")
 }
 
 function gtaTravel:new()
     registerForEvent("onInit", function()
-        
+  
         gtaTravel.settings = {}
         gtaTravel.defaultSettings = {
             upwardPath = {topSpeed = 4, speedIncrement = 0.025, camHeight = 700, playerTpDistance = 50},
             sidePath = {topSpeed = 10, speedIncrement = 0.05},
             downPath = {topSpeed = 4, speedIncrement = 0.025, playerTpDistance = 50},
             miscSettings = {anywhere2anywhere = false, anywhere2ftp = false, ftp2ftp = true, toggleHead = true},
+            visualSettings = {noHud = true, blur = true}
         }
 
         gtaTravel.loadUpSlot = 1
@@ -88,6 +90,19 @@ function gtaTravel:new()
                     player:GetFPPCameraComponent().pitchMax = -80 
                     gtaTravel.readyForGeneratePath = true
                     Game.ModStatPlayer("Health", 9999999)
+
+                    gtaTravel.GameSettings.ExportTo("config/visual/lastSettings.lua")
+                    if gtaTravel.settings.visualSettings.noHud and gtaTravel.settings.visualSettings.blur then
+                        gtaTravel.GameSettings.ImportFrom("config/visual/blurHud.lua")
+                        gtaTravel.GameSettings.Save()
+                    elseif gtaTravel.settings.visualSettings.noHud then
+                        gtaTravel.GameSettings.ImportFrom("config/visual/hud.lua")
+                        gtaTravel.GameSettings.Save()
+                    elseif gtaTravel.settings.visualSettings.blur then
+                        gtaTravel.GameSettings.ImportFrom("config/visual/blur.lua")
+                        gtaTravel.GameSettings.Save()
+                    end
+
                 else
                     Game.GetTeleportationFacility():Teleport(player, gtaTravel.pathing.gtaTravelDestination , EulerAngles.new(0, 0, player:GetWorldYaw()))
                     gtaTravel.api.done = true
@@ -109,6 +124,10 @@ function gtaTravel:new()
                 gtaTravel.flyPath = false
                 gtaTravel.resetPitch = true
                 gtaTravel.api.done = true
+                if gtaTravel.settings.visualSettings.noHud or gtaTravel.settings.visualSettings.blur then
+                    gtaTravel.GameSettings.ImportFrom("config/visual/lastSettings.lua")
+                    gtaTravel.GameSettings.Save()
+                end
             end
         end
     end)

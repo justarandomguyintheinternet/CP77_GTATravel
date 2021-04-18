@@ -35,10 +35,20 @@ function tooltips.drawBtn(gtaTravel, label, key)
             ImGui.TextWrapped("If you encounter issues with the players head (You see him after the transition is done), disable this option")
             gtaTravel.CPS:CPToolTip1End()
         elseif key == "resetStuff" then
-            gtaTravel.CPS:CPToolTip1Begin(260, 115)
+            gtaTravel.CPS:CPToolTip1Begin(260, 188)
             ImGui.TextWrapped("Reset Cam:\nThis resets your cam to its deault position and also removes any movement locks")
             ImGui.Separator()
             ImGui.TextWrapped("Toggle Head:\nUse this if you can see your head while in FPP view")
+            ImGui.Separator()
+            ImGui.TextWrapped("Restore Visual Settings:\nUse this if need to restore your previous HUD and Blur options manually if needed (After crash durring transition for example)")
+            gtaTravel.CPS:CPToolTip1End()
+        elseif key == "noHud" then
+            gtaTravel.CPS:CPToolTip1Begin(275, 45)
+            ImGui.TextWrapped("This option disables your HUD during the transition")
+            gtaTravel.CPS:CPToolTip1End()
+        elseif key == "blur" then
+            gtaTravel.CPS:CPToolTip1Begin(275, 45)
+            ImGui.TextWrapped("This option enables Motion Blur during the transition")
             gtaTravel.CPS:CPToolTip1End()
         end
     end

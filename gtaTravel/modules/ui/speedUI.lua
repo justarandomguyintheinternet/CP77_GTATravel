@@ -61,7 +61,7 @@ function speedUI.draw(gtaTravel)
     ------------------------------------------------------------------------------
     gtaTravel.CPS.colorEnd(2)
     ImGui.Text("Tip: Click on a settings box, and then use up and down arrows + enter \nto enter numeric values")
-    pressed = gtaTravel.CPS:CPButton("Reset Settings", 110, 30)
+    pressed = gtaTravel.CPS.CPButton("Reset Settings", 110, 30)
     if pressed then
         gtaTravel.settings = gtaTravel.config.deepcopy(gtaTravel.defaultSettings)
     end

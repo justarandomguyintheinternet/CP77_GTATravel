@@ -42,13 +42,13 @@ function miscUI.draw(gtaTravel)
     gtaTravel.CPS.colorEnd(1)
     miscUI.tooltips.drawBtn(gtaTravel, "?", "resetStuff")
     ImGui.Separator()
-    cam = gtaTravel.CPS:CPButton("Reset cam", 75, 30)
+    cam = gtaTravel.CPS.CPButton("Reset cam", 75, 30)
     if cam then miscUI.resetCam() end
     ImGui.SameLine()
-    head = gtaTravel.CPS:CPButton("Toggle Head", 90, 30)
+    head = gtaTravel.CPS.CPButton("Toggle Head", 90, 30)
     if head then gtaTravel.pathing.toggleHead() end
     ImGui.SameLine()
-    settings = gtaTravel.CPS:CPButton("Restore Visual Settings", 175, 30)
+    settings = gtaTravel.CPS.CPButton("Restore Visual Settings", 175, 30)
     if settings then 
         gtaTravel.GameSettings.ImportFrom("config/visual/lastSettings.lua")
         gtaTravel.GameSettings.Save()

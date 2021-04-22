@@ -17,7 +17,7 @@
 gtaTravel = {
     isUIVisible = false,
     pathing = require("modules/pathing"),
-    CPS = GetMod("CPStyling"):New(),
+    CPS = require("CPStyling"),
 	ui = require("modules/ui/ui"),
 	config = require("modules/config"),
     api = require("modules/api"),
@@ -91,16 +91,18 @@ function gtaTravel:new()
                     gtaTravel.readyForGeneratePath = true
                     Game.ModStatPlayer("Health", 9999999)
 
-                    gtaTravel.GameSettings.ExportTo("config/visual/lastSettings.lua")
-                    if gtaTravel.settings.visualSettings.noHud and gtaTravel.settings.visualSettings.blur then
-                        gtaTravel.GameSettings.ImportFrom("config/visual/blurHud.lua")
-                        gtaTravel.GameSettings.Save()
-                    elseif gtaTravel.settings.visualSettings.noHud then
-                        gtaTravel.GameSettings.ImportFrom("config/visual/hud.lua")
-                        gtaTravel.GameSettings.Save()
-                    elseif gtaTravel.settings.visualSettings.blur then
-                        gtaTravel.GameSettings.ImportFrom("config/visual/blur.lua")
-                        gtaTravel.GameSettings.Save()
+                    if not gtaTravel.api.activeFromAPI then
+                        gtaTravel.GameSettings.ExportTo("config/visual/lastSettings.lua")
+                        if gtaTravel.settings.visualSettings.noHud and gtaTravel.settings.visualSettings.blur then
+                            gtaTravel.GameSettings.ImportFrom("config/visual/blurHud.lua")
+                            gtaTravel.GameSettings.Save()
+                        elseif gtaTravel.settings.visualSettings.noHud then
+                            gtaTravel.GameSettings.ImportFrom("config/visual/hud.lua")
+                            gtaTravel.GameSettings.Save()
+                        elseif gtaTravel.settings.visualSettings.blur then
+                            gtaTravel.GameSettings.ImportFrom("config/visual/blur.lua")
+                            gtaTravel.GameSettings.Save()
+                        end
                     end
 
                 else
@@ -116,6 +118,21 @@ function gtaTravel:new()
             player:GetFPPCameraComponent():SetLocalPosition(gtaTravel.path[gtaTravel.currentStep])
             player:GetFPPCameraComponent().pitchMax = -80
             player:GetFPPCameraComponent().headingLocked = true
+
+            if gtaTravel.api.activeFromAPI then
+                gtaTravel.api.activeFromAPI = false
+                gtaTravel.GameSettings.ExportTo("config/visual/lastSettings.lua")
+                if gtaTravel.settings.visualSettings.noHud and gtaTravel.settings.visualSettings.blur then
+                    gtaTravel.GameSettings.ImportFrom("config/visual/blurHud.lua")
+                    gtaTravel.GameSettings.Save()
+                elseif gtaTravel.settings.visualSettings.noHud then
+                    gtaTravel.GameSettings.ImportFrom("config/visual/hud.lua")
+                    gtaTravel.GameSettings.Save()
+                elseif gtaTravel.settings.visualSettings.blur then
+                    gtaTravel.GameSettings.ImportFrom("config/visual/blur.lua")
+                    gtaTravel.GameSettings.Save()
+                end
+            end
 
             gtaTravel.currentStep = gtaTravel.currentStep + 1
             if gtaTravel.currentStep >= gtaTravel.stepsTodo then

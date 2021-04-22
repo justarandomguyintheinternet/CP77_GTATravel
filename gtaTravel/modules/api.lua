@@ -1,6 +1,7 @@
 api = {
     toggled = false,
-    target = nil
+    target = nil,
+    activeFromAPI = false
 }
 
 function api.requestTravel(pos)
@@ -11,6 +12,7 @@ end
 
 function api.check(gtaTravel)
     if api.toggled then
+        api.activeFromAPI = true
         api.toggled = false
         gtaTravel.pathing.gtaTravelDestination = api.target
         gtaTravel.setDirForVector = true

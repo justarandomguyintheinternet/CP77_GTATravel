@@ -26,11 +26,11 @@ function fileUI.drawSlot(gtaTravel, slot)
     ImGui.Text(title)
 	ImGui.Separator()
 
-	l = gtaTravel.CPS:CPButton("Load", 60, 30)
+	l = gtaTravel.CPS.CPButton("Load", 60, 30)
 	ImGui.SameLine()
-	save = gtaTravel.CPS:CPButton("Save", 60, 30)
+	save = gtaTravel.CPS.CPButton("Save", 60, 30)
 	ImGui.SameLine()
-	reset = gtaTravel.CPS:CPButton("Reset", 60, 30)
+	reset = gtaTravel.CPS.CPButton("Reset", 60, 30)
 	ImGui.SameLine()
 
     if l then

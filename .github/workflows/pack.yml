@@ -14,13 +14,13 @@ jobs:
       - name: Setup folder
         run: |
           cd ${{ github.workspace }}
-          sudo mkdir -p /packed/bin/x64/plugins/cyber_engine_tweaks/mods/
+          sudo mkdir -p /packed/bin/x64/plugins/cyber_engine_tweaks/mods/gtaTravel
       - name: Copy files
         run: |
-          sudo cp -r init.lua /packed/bin/x64/plugins/cyber_engine_tweaks/mods/
-          sudo cp -r modules /packed/bin/x64/plugins/cyber_engine_tweaks/mods/
-          sudo cp -r CPStyling /packed/bin/x64/plugins/cyber_engine_tweaks/mods/
-          sudo cp -r config /packed/bin/x64/plugins/cyber_engine_tweaks/mods/
+          sudo cp -r init.lua /packed/bin/x64/plugins/cyber_engine_tweaks/mods/gtaTravel
+          sudo cp -r modules /packed/bin/x64/plugins/cyber_engine_tweaks/mods/gtaTravel
+          sudo cp -r CPStyling /packed/bin/x64/plugins/cyber_engine_tweaks/mods/gtaTravel
+          sudo cp -r config /packed/bin/x64/plugins/cyber_engine_tweaks/mods/gtaTravel
       - name: Upload zip
         uses: actions/upload-artifact@v2
         with:

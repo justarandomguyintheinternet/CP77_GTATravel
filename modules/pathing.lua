@@ -1,11 +1,14 @@
 pathing = {
-    gtaTravelDestination = nil
+    gtaTravelDestination = nil,
+    upSteps = 0,
+    sideSteps = 0
 }
 
 function pathing.toggleHead()
-    local headItem = "Items.PlayerMaPhotomodeHead"
-    if string.find(tostring(Game.GetPlayer():GetResolvedGenderName()), "Female") then
-        headItem = "Items.PlayerWaPhotomodeHead"
+	local isFemale = string.find(tostring(Game.GetPlayer():GetResolvedGenderName()), "Female")
+    local headItem = "Items.CharacterCustomizationMaHead"
+    if isFemale then
+        headItem = "Items.CharacterCustomizationWaHead"
     end
 
     local ts = Game.GetTransactionSystem()
@@ -13,11 +16,18 @@ function pathing.toggleHead()
     local tdbid = TweakDBID.new(headItem)
     local itemID = gameItemID:FromTDBID(tdbid)
 
-        if ts:HasItem(Game.GetPlayer(), itemID) == false then
-            Game.AddToInventory(headItem, 1)
-        end
+    if ts:HasItem(Game.GetPlayer(), itemID) == false then
+        Game.AddToInventory(headItem, 1)
+    end
 
     Game.EquipItemOnPlayer(headItem, "TppHead")
+
+    if ts:GetItemInSlot(Game.GetPlayer(), TweakDBID.new("AttachmentSlots.TppHead")) ~= nil then
+      ts:RemoveItemFromSlot(Game.GetPlayer(), TweakDBID.new('AttachmentSlots.TppHead'), true, true, true)
+      Game.EquipItemOnPlayer("Items.PlayerFppHead", "TppHead")
+    else
+      Game.EquipItemOnPlayer(headItem, "TppHead")
+    end
 end
 
 function pathing.distanceVector(from, to) -- Get distance between two vectors, ignoring z
@@ -100,7 +110,6 @@ function pathing.upPath(gtaTravel)
         distanceDone = distanceDone + speed
         pathing.steps = pathing.steps + 1
     end
-
 end
 
 function pathing.sidePath(gtaTravel)
@@ -198,7 +207,9 @@ function pathing.generatePath(gtaTravel)
     pathing.steps = 1
 
     pathing.upPath(gtaTravel)
+    pathing.upSteps = pathing.steps
     pathing.sidePath(gtaTravel)
+    pathing.sideSteps = pathing.steps
     pathing.downPath(gtaTravel)
 end
 

@@ -1,4 +1,4 @@
 
+*.log
 *.json
 *.sqlite3
-*.log

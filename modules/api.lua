@@ -1,7 +1,9 @@
 api = {
     toggled = false,
     target = nil,
-    activeFromAPI = false
+    activeFromAPI = false,
+    version = "1.7",
+    modBlocked = false
 }
 
 function api.requestTravel(pos)

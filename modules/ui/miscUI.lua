@@ -1,3 +1,5 @@
+local util = require("modules/util")
+
 miscUI = {
     tooltips = require("modules/ui/tooltips"),
     colors = {frame = {0, 50, 255}},
@@ -43,37 +45,38 @@ function miscUI.draw(gtaTravel)
     miscUI.tooltips.drawBtn(gtaTravel, "?", "resetStuff")
     ImGui.Separator()
     cam = gtaTravel.CPS.CPButton("Reset cam", 75, 30)
-    if cam then miscUI.resetCam() end
+
     ImGui.SameLine()
-    head = gtaTravel.CPS.CPButton("Toggle Head", 90, 30)
-    if head then gtaTravel.pathing.toggleHead() end
-    ImGui.SameLine()
-    settings = gtaTravel.CPS.CPButton("Restore Visual Settings", 175, 30)
-    if settings then 
-        gtaTravel.GameSettings.ImportFrom("config/visual/lastSettings.lua")
-        gtaTravel.GameSettings.Save()
+    settings = gtaTravel.CPS.CPButton("Remove Restrictions", 150, 30)
+    if settings then
+        util.removeRestrictions()
     end
     ImGui.EndChild()
 
-    ImGui.BeginChild("visuals", miscUI.boxSize.x, 80, true)
+    local y = 105
+    if gtaTravel.settings.timeSettings.speedUp then y = 128 end
+
+    ImGui.BeginChild("visuals", miscUI.boxSize.x, y, true)
     gtaTravel.CPS.colorBegin("Text", miscUI.colors.frame)
     ImGui.Text("Visual Settings")
     gtaTravel.CPS.colorEnd(1)
     ImGui.Separator()
-    gtaTravel.settings.visualSettings.noHud = ImGui.Checkbox("Disable HUD", gtaTravel.settings.visualSettings.noHud)
+    gtaTravel.settings.visualSettings.noHud, c = ImGui.Checkbox("Disable HUD", gtaTravel.settings.visualSettings.noHud)
+    if c and gtaTravel.flyPath then
+        gtaTravel.util.toggleHUD(not gtaTravel.settings.visualSettings.noHud)
+    end
     miscUI.tooltips.drawBtn(gtaTravel, "?", "noHud")
     gtaTravel.settings.visualSettings.blur = ImGui.Checkbox("Enable Motion Blur", gtaTravel.settings.visualSettings.blur)
+    if changed and gtaTravel.flyPath then
+        gtaTravel.util.toggleBlur(gtaTravel.settings.visualSettings.blur)
+    end
     miscUI.tooltips.drawBtn(gtaTravel, "?", "blur")
 
-    ImGui.EndChild()
+    gtaTravel.settings.timeSettings.speedUp = ImGui.Checkbox("Speed up time during transition", gtaTravel.settings.timeSettings.speedUp)
+    if gtaTravel.settings.timeSettings.speedUp then
+        gtaTravel.settings.timeSettings.amount = ImGui.SliderInt("Speed increase", gtaTravel.settings.timeSettings.amount, 1, 25)
+    end
 
-    ImGui.BeginChild("experimental", miscUI.boxSize.x, 62, true)
-    gtaTravel.CPS.colorBegin("Text", miscUI.colors.frame)
-    ImGui.Text("Head Settings")
-    gtaTravel.CPS.colorEnd(1)
-    miscUI.tooltips.drawBtn(gtaTravel, "?", "headSettings")
-    ImGui.Separator()
-    gtaTravel.settings.miscSettings.toggleHead = ImGui.Checkbox("Add player head during flight",  gtaTravel.settings.miscSettings.toggleHead)
     ImGui.EndChild()
 
     gtaTravel.CPS.colorEnd(2)
@@ -90,9 +93,6 @@ function miscUI.resetSettings(gtaTravel)
     gtaTravel.settings.miscSettings.anywhere2anywhere = false
     gtaTravel.settings.miscSettings.anywhere2ftp = false
     gtaTravel.settings.miscSettings.ftp2ftp = false
-    Game.GetPlayer().anywhere2anywhere  = false
-    Game.GetPlayer().anywhere2ftp = false
-    Game.GetPlayer().ftp2ftp = false
 end
 
 return miscUI

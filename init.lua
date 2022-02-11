@@ -27,15 +27,14 @@ gtaTravel = {
 
 function gtaTravel:new()
     registerForEvent("onInit", function()
-  
         gtaTravel.settings = {}
         gtaTravel.defaultSettings = {
             upwardPath = {topSpeed = 4, speedIncrement = 0.025, camHeight = 700, playerTpDistance = 50},
             sidePath = {topSpeed = 10, speedIncrement = 0.05},
             downPath = {topSpeed = 4, speedIncrement = 0.025, playerTpDistance = 50},
-            miscSettings = {anywhere2anywhere = false, anywhere2ftp = false, ftp2ftp = true, toggleHead = true},
+            miscSettings = {anywhere2anywhere = false, anywhere2ftp = false, ftp2ftp = true},
             visualSettings = {noHud = true, blur = true},
-            timeSettings = {speedUp = true, amount = 5}
+            timeSettings = {speedUp = false, amount = 5}
         }
 
         gtaTravel.loadUpSlot = 1
@@ -84,7 +83,7 @@ function gtaTravel:new()
         if gtaTravel.setDirForVector then  -- Entry point to the whole animation
             if not gtaTravel.flyPath then
                 gtaTravel.setDirForVector = false
-                if not Game.GetWorkspotSystem():IsActorInWorkspot(Game.GetPlayer()) then
+                if not Game.GetWorkspotSystem():IsActorInWorkspot(player) then
                     player:GetFPPCameraComponent().pitchMax = -80
                     gtaTravel.readyForGeneratePath = true
                     Game.ModStatPlayer("Health", 9999999)

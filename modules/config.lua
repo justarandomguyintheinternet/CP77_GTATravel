@@ -62,9 +62,14 @@ function config.loadFile(path)
     local cf = json.decode(file:read("*a"))
     file:close()
 
+
     if cf.visualSettings == nil then
         cf.visualSettings = {noHud = true, blur = true}
     end
+    if cf.timeSettings == nil then
+        cf.timeSettings = {speedUp = true, amount = 5}
+    end
+
     config.saveFile(path, cf)
 
     return cf

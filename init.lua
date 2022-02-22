@@ -33,7 +33,7 @@ function gtaTravel:new()
             sidePath = {topSpeed = 10, speedIncrement = 0.05},
             downPath = {topSpeed = 4, speedIncrement = 0.025, playerTpDistance = 50},
             miscSettings = {anywhere2anywhere = false, anywhere2ftp = false, ftp2ftp = true},
-            visualSettings = {noHud = true, blur = true},
+            visualSettings = {noHud = true, blur = false},
             timeSettings = {speedUp = false, amount = 5}
         }
 
@@ -88,6 +88,10 @@ function gtaTravel:new()
                     gtaTravel.readyForGeneratePath = true
                     Game.ModStatPlayer("Health", 9999999)
 
+                    if GetMod("ImmersiveFirstPerson") then
+                        GetMod("ImmersiveFirstPerson").api.Disable()
+                    end
+
                     if gtaTravel.settings.visualSettings.noHud then
                         gtaTravel.util.toggleHUD(false)
                     end
@@ -117,6 +121,11 @@ function gtaTravel:new()
             gtaTravel.currentStep = gtaTravel.currentStep + 1
             if gtaTravel.currentStep >= gtaTravel.stepsTodo then
                 util.removeRestrictions()
+
+                if GetMod("ImmersiveFirstPerson") then
+                    GetMod("ImmersiveFirstPerson").api.Enable()
+                end
+
                 if gtaTravel.settings.visualSettings.noHud then
                     gtaTravel.util.toggleHUD(true)
                 end

@@ -35,8 +35,6 @@ function util.toggleHUD(state)
 end
 
 function util.toggleBlur(state)
-    print(GameSettings.Get("/graphics/basic/MotionBlur"))
-
     if state then
         util.blur = GameSettings.Get("/graphics/basic/MotionBlur")
         GameSettings.Set('/graphics/basic/MotionBlur', "High")

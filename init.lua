@@ -27,6 +27,8 @@ gtaTravel = {
 
 function gtaTravel:new()
     registerForEvent("onInit", function()
+        CName.add("gtaTravel")
+
         gtaTravel.settings = {}
         gtaTravel.defaultSettings = {
             upwardPath = {topSpeed = 4, speedIncrement = 0.025, camHeight = 700, playerTpDistance = 50},
@@ -98,6 +100,8 @@ function gtaTravel:new()
                     if gtaTravel.settings.visualSettings.blur then
                         gtaTravel.util.toggleBlur(true)
                     end
+
+                    SaveLocksManager.RequestSaveLockAdd("gtaTravel")
                 else
                     Game.GetTeleportationFacility():Teleport(player, gtaTravel.pathing.gtaTravelDestination , EulerAngles.new(0, 0, player:GetWorldYaw()))
                     gtaTravel.api.done = true
@@ -107,9 +111,11 @@ function gtaTravel:new()
 
         if gtaTravel.flyPath and not gtaTravel.paused then
             gtaTravel.util.applyRestrictions()
-            if gtaTravel.currentStep == gtaTravel.pathing.sideSteps then Game.GetTimeSystem():SetTimeDilation("", 1) end
+            if gtaTravel.currentStep == gtaTravel.pathing.sideSteps then
+                Game.GetTimeSystem():UnsetTimeDilation("gtaTravel")
+            end
             if gtaTravel.currentStep < gtaTravel.pathing.sideSteps and gtaTravel.currentStep > gtaTravel.pathing.upSteps and gtaTravel.settings.timeSettings.speedUp then
-                Game.GetTimeSystem():SetTimeDilation("", (gtaTravel.settings.timeSettings.amount / 2) * gtaTravel.pathing.distanceVector(gtaTravel.positions[gtaTravel.currentStep], gtaTravel.positions[gtaTravel.currentStep + 1]))
+                Game.GetTimeSystem():SetTimeDilation("gtaTravel", (gtaTravel.settings.timeSettings.amount / 2) * gtaTravel.pathing.distanceVector(gtaTravel.positions[gtaTravel.currentStep], gtaTravel.positions[gtaTravel.currentStep + 1]))
             end
 
             Game.Heal("100000", "0")
@@ -132,6 +138,8 @@ function gtaTravel:new()
                 if gtaTravel.settings.visualSettings.blur then
                     gtaTravel.util.toggleBlur(false)
                 end
+
+                SaveLocksManager.RequestSaveLockRemove("gtaTravel")
 
                 player:GetFPPCameraComponent().pitchMax = 79.99
                 gtaTravel.currentStep = 1

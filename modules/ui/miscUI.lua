@@ -50,6 +50,7 @@ function miscUI.draw(gtaTravel)
     settings = gtaTravel.CPS.CPButton("Remove Restrictions", 150, 30)
     if settings then
         util.removeRestrictions()
+        SaveLocksManager.RequestSaveLockRemove("gtaTravel")
     end
     ImGui.EndChild()
 

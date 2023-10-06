@@ -62,15 +62,13 @@ function gtaTravel:new()
     end)
 
     registerForEvent("onUpdate", function(deltaTime)
-        local player = Game.GetPlayer()
         gtaTravel.config.tryAutoSave(gtaTravel, deltaTime)
         gtaTravel.api.check(gtaTravel)
 
         if gtaTravel.resetPitch then
             gtaTravel.resetPitch = false
-            player:GetFPPCameraComponent():ResetPitch()
-            player:GetFPPCameraComponent().headingLocked = false
-            Game.ModStatPlayer("Health", -9999999)
+            GetPlayer():GetFPPCameraComponent():ResetPitch()
+            GetPlayer():GetFPPCameraComponent().headingLocked = false
         end
 
         if gtaTravel.readyForGeneratePath then
@@ -85,10 +83,10 @@ function gtaTravel:new()
         if gtaTravel.setDirForVector then  -- Entry point to the whole animation
             if not gtaTravel.flyPath then
                 gtaTravel.setDirForVector = false
-                if not Game.GetWorkspotSystem():IsActorInWorkspot(player) then
-                    player:GetFPPCameraComponent().pitchMax = -80
+                if not Game.GetWorkspotSystem():IsActorInWorkspot(GetPlayer()) then
+                    GetPlayer():GetFPPCameraComponent().pitchMax = -80
                     gtaTravel.readyForGeneratePath = true
-                    Game.ModStatPlayer("Health", 9999999)
+                    Game.GetStatPoolsSystem():RequestSettingStatPoolValue(GetPlayer():GetEntityID(), gamedataStatPoolType.Health, 100, nil)
 
                     if GetMod("ImmersiveFirstPerson") then
                         GetMod("ImmersiveFirstPerson").api.Disable()
@@ -103,7 +101,7 @@ function gtaTravel:new()
 
                     SaveLocksManager.RequestSaveLockAdd("gtaTravel")
                 else
-                    Game.GetTeleportationFacility():Teleport(player, gtaTravel.pathing.gtaTravelDestination , EulerAngles.new(0, 0, player:GetWorldYaw()))
+                    Game.GetTeleportationFacility():Teleport(GetPlayer(), gtaTravel.pathing.gtaTravelDestination , EulerAngles.new(0, 0, GetPlayer():GetWorldYaw()))
                     gtaTravel.api.done = true
                 end
             end
@@ -118,11 +116,11 @@ function gtaTravel:new()
                 Game.GetTimeSystem():SetTimeDilation("gtaTravel", (gtaTravel.settings.timeSettings.amount / 2) * gtaTravel.pathing.distanceVector(gtaTravel.positions[gtaTravel.currentStep], gtaTravel.positions[gtaTravel.currentStep + 1]))
             end
 
-            Game.Heal("100000", "0")
-            Game.GetTeleportationFacility():Teleport(player, gtaTravel.positions[gtaTravel.currentStep] , EulerAngles.new(0, 0, player:GetWorldYaw()))
-            player:GetFPPCameraComponent():SetLocalPosition(gtaTravel.path[gtaTravel.currentStep])
-            player:GetFPPCameraComponent().pitchMax = -80
-            player:GetFPPCameraComponent().headingLocked = true
+            Game.GetStatPoolsSystem():RequestSettingStatPoolValue(GetPlayer():GetEntityID(), gamedataStatPoolType.Health, 100, nil)
+            Game.GetTeleportationFacility():Teleport(GetPlayer(), gtaTravel.positions[gtaTravel.currentStep] , EulerAngles.new(0, 0, GetPlayer():GetWorldYaw()))
+            GetPlayer():GetFPPCameraComponent():SetLocalPosition(gtaTravel.path[gtaTravel.currentStep])
+            GetPlayer():GetFPPCameraComponent().pitchMax = -80
+            GetPlayer():GetFPPCameraComponent().headingLocked = true
 
             gtaTravel.currentStep = gtaTravel.currentStep + 1
             if gtaTravel.currentStep >= gtaTravel.stepsTodo then
@@ -141,7 +139,7 @@ function gtaTravel:new()
 
                 SaveLocksManager.RequestSaveLockRemove("gtaTravel")
 
-                player:GetFPPCameraComponent().pitchMax = 79.99
+                GetPlayer():GetFPPCameraComponent().pitchMax = 79.99
                 gtaTravel.currentStep = 1
                 gtaTravel.flyPath = false
                 gtaTravel.resetPitch = true

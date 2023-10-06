@@ -34,7 +34,7 @@ function fileUI.drawSlot(gtaTravel, slot)
 	ImGui.SameLine()
 
     if l then
-        gtaTravel.settings = gtaTravel.config.loadFile("config/slot" .. slot .. ".json")
+        gtaTravel.settings = gtaTravel.config.loadFile("config/slot" .. slot .. ".json", gtaTravel.defaultSettings)
         fileUI.statusText = "Loaded slot ".. slot
     end
     if save then

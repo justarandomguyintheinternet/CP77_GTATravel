@@ -5,18 +5,20 @@ util = {
 }
 
 function util.applyRestrictions()
-    Game.ApplyEffectOnPlayer("GameplayRestriction.NoZooming")
-	Game.ApplyEffectOnPlayer("GameplayRestriction.NoScanning")
-	Game.ApplyEffectOnPlayer("GameplayRestriction.NoCombat")
-    Game.ApplyEffectOnPlayer("GameplayRestriction.NoMovement")
+    Game.GetStatusEffectSystem():ApplyStatusEffect(GetPlayer():GetEntityID(), "GameplayRestriction.NoZooming", GetPlayer():GetRecordID(), GetPlayer():GetEntityID())
+    Game.GetStatusEffectSystem():ApplyStatusEffect(GetPlayer():GetEntityID(), "GameplayRestriction.NoScanning", GetPlayer():GetRecordID(), GetPlayer():GetEntityID())
+    Game.GetStatusEffectSystem():ApplyStatusEffect(GetPlayer():GetEntityID(), "GameplayRestriction.NoCombat", GetPlayer():GetRecordID(), GetPlayer():GetEntityID())
+    Game.GetStatusEffectSystem():ApplyStatusEffect(GetPlayer():GetEntityID(), "GameplayRestriction.NoMovement", GetPlayer():GetRecordID(), GetPlayer():GetEntityID())
+
     StatusEffectHelper.RemoveStatusEffectsWithTag(GetPlayer(), "Breathing")
 end
 
 function util.removeRestrictions()
-    Game.RemoveEffectPlayer("GameplayRestriction.NoMovement")
-	Game.RemoveEffectPlayer("GameplayRestriction.NoZooming")
-	Game.RemoveEffectPlayer("GameplayRestriction.NoScanning")
-	Game.RemoveEffectPlayer("GameplayRestriction.NoCombat")
+    Game.GetStatusEffectSystem():RemoveStatusEffect(GetPlayer():GetEntityID(), "GameplayRestriction.NoMovement")
+    Game.GetStatusEffectSystem():RemoveStatusEffect(GetPlayer():GetEntityID(), "GameplayRestriction.NoZooming")
+    Game.GetStatusEffectSystem():RemoveStatusEffect(GetPlayer():GetEntityID(), "GameplayRestriction.NoScanning")
+    Game.GetStatusEffectSystem():RemoveStatusEffect(GetPlayer():GetEntityID(), "GameplayRestriction.NoCombat")
+
     GetPlayer():ReevaluateAllBreathingEffects()
 end
 

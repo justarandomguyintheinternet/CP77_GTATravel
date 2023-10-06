@@ -20,13 +20,13 @@ function pathing.toggleHead()
         Game.AddToInventory(headItem, 1)
     end
 
-    Game.EquipItemOnPlayer(headItem, "TppHead")
+    Game.GetTransactionSystem():AddItemToSlot(GetPlayer(), TDBID.Create("AttachmentSlots.TppHead"), ItemID.FromTDBID(TDBID.Create(headItem)));
 
     if ts:GetItemInSlot(Game.GetPlayer(), TweakDBID.new("AttachmentSlots.TppHead")) ~= nil then
       ts:RemoveItemFromSlot(Game.GetPlayer(), TweakDBID.new('AttachmentSlots.TppHead'), true, true, true)
-      Game.EquipItemOnPlayer("Items.PlayerFppHead", "TppHead")
+      Game.GetTransactionSystem():AddItemToSlot(GetPlayer(), TDBID.Create("AttachmentSlots.TppHead"), ItemID.FromTDBID(TDBID.Create("Items.PlayerFppHead")));
     else
-      Game.EquipItemOnPlayer(headItem, "TppHead")
+      Game.GetTransactionSystem():AddItemToSlot(GetPlayer(), TDBID.Create("AttachmentSlots.TppHead"), ItemID.FromTDBID(TDBID.Create(headItem)));
     end
 end
 

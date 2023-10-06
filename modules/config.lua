@@ -34,10 +34,10 @@ function config.startup(gtaTravel)
     config.tryCreateFile("config/slot2.json", gtaTravel.defaultSettings)
     config.tryCreateFile("config/slot3.json", gtaTravel.defaultSettings)
 
-    gtaTravel.loadUpSlot = config.loadFile("config/startup.json").slot
-    gtaTravel.autoSave = config.loadFile("config/startup.json").autoSave
+    gtaTravel.loadUpSlot = config.loadFile("config/startup.json", {slot = 1, autoSave = false}).slot
+    gtaTravel.autoSave = config.loadFile("config/startup.json", {slot = 1, autoSave = false}).autoSave
     if gtaTravel.loadUpSlot ~= 0 then
-        gtaTravel.settings = config.loadFile("config/slot" .. gtaTravel.loadUpSlot .. ".json")
+        gtaTravel.settings = config.loadFile("config/slot" .. gtaTravel.loadUpSlot .. ".json", gtaTravel.defaultSettings)
     else
         gtaTravel.settings = config.deepcopy(gtaTravel.defaultSettings)
     end
@@ -57,11 +57,25 @@ function config.tryCreateFile(path, data)
     end
 end
 
-function config.loadFile(path) 
+function config.loadFile(path, fallback)
+    local cf
     local file = io.open(path, "r")
-    local cf = json.decode(file:read("*a"))
+
+    local success = pcall(function ()
+        cf = json.decode(file:read("*a"))
+    end)
+
     file:close()
 
+    if not success then
+        print("[GTATravel] Error while reading config file \"" .. path .. "\", resetting it now...")
+        os.remove(path)
+        config.tryCreateFile(path, fallback)
+
+        local file = io.open(path, "r")
+        cf = json.decode(file:read("*a"))
+        file:close()
+    end
 
     if cf.visualSettings == nil then
         cf.visualSettings = {noHud = true, blur = true}

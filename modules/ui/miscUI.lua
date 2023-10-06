@@ -11,7 +11,7 @@ function miscUI.draw(gtaTravel)
     gtaTravel.CPS.colorBegin("Separator", miscUI.colors.frame)
     gtaTravel.CPS.colorBegin("Text", miscUI.colors.frame)
 
-    ImGui.BeginChild("miscSettings", miscUI.boxSize.x, 110, true)
+    ImGui.BeginChild("miscSettings", miscUI.boxSize.x, 130, true)
     ImGui.PushItemWidth(330)
 
     ImGui.Text("Enable GTA Travel from:")
@@ -38,7 +38,7 @@ function miscUI.draw(gtaTravel)
     ImGui.PopItemWidth()
     ImGui.EndChild()
 
-    ImGui.BeginChild("resetStuff", miscUI.boxSize.x, 75, true)
+    ImGui.BeginChild("resetStuff", miscUI.boxSize.x, 80, true)
     gtaTravel.CPS.colorBegin("Text", miscUI.colors.frame)
     ImGui.Text("Reset Stuff")
     gtaTravel.CPS.colorEnd(1)
@@ -54,8 +54,8 @@ function miscUI.draw(gtaTravel)
     end
     ImGui.EndChild()
 
-    local y = 105
-    if gtaTravel.settings.timeSettings.speedUp then y = 128 end
+    local y = 125
+    if gtaTravel.settings.timeSettings.speedUp then y = 150 end
 
     ImGui.BeginChild("visuals", miscUI.boxSize.x, y, true)
     gtaTravel.CPS.colorBegin("Text", miscUI.colors.frame)
